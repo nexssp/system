@@ -30,8 +30,10 @@ STDOUT:
 }
 
 function nSpawn(command, options = {}) {
-  var { parseArgsStringToArgv } = require("string-argv");
-  const [cmd, ...args] = parseArgsStringToArgv(command).argStripQuotes();
+  const { parseArgsStringToArgv } = require("string-argv");
+  const parsed = parseArgsStringToArgv(command);
+  // const strippedQuotesArgs = parsed.argStripQuotes();
+  const [cmd, ...args] = parseArgsStringToArgv(command);
 
   if (nSpawn.debug) {
     console.log("command:", command);
@@ -65,7 +67,6 @@ function nSpawn(command, options = {}) {
     console.log("Error catched:", e);
     process.exit(1);
   }
-
   if (result.error) {
     switch (result.error.code) {
       case "ENOENT":
