@@ -5,17 +5,24 @@ const { nSpawn } = require("../");
 
 // nSpawn.debug = true;
 
-// const command1 = `node stderr_stdout_1.js`;
-// const result1 = nSpawn(command1);
-// assert.equal(result1.stdout.toString(), "stdout1\n");
-// assert.ok(result1.stderr.toString(), "stderr1\n");
-// assert.equal(result1.exitCode, 1);
+const command0 = `echo Id --myPath=CDE --myPath="Program Files" --nxsConcat="myPath" --nxsGlue=PATH --debug`;
+const result0 = nSpawn(command0);
+assert.match(
+  result0.stdout.toString(),
+  /Id --myPath=CDE --myPath=Program Files --nxsConcat=myPath --nxsGlue=PATH --debug\r\n/
+);
 
-// const command2 = `node stderr_stdout_exit_2.js`;
-// const result2 = nSpawn(command2);
-// assert.equal(result2.stdout.toString(), "stdout2\n");
-// assert.ok(result2.stderr.toString(), "stderr2\n");
-// assert.equal(result2.exitCode, 1);
+const command1 = `node stderr_stdout_1.js`;
+const result1 = nSpawn(command1);
+assert.equal(result1.stdout.toString(), "stdout1\n");
+assert.ok(result1.stderr.toString(), "stderr1\n");
+assert.equal(result1.exitCode, 1);
+
+const command2 = `node stderr_stdout_exit_2.js`;
+const result2 = nSpawn(command2);
+assert.equal(result2.stdout.toString(), "stdout2\n");
+assert.ok(result2.stderr.toString(), "stderr2\n");
+assert.equal(result2.exitCode, 1);
 
 // const command3 = `nexss Nexss/Test/Platform/example1.nexss`;
 // const result3 = nSpawn(command3);
@@ -23,8 +30,8 @@ const { nSpawn } = require("../");
 // assert.ok(result3.stderr.toString(), "stderr2\n");
 // assert.equal(result3.exitCode, 1);
 
-const command4 = `nexss Nexss/Test/Platform/example1.nexss`;
-const result4 = nSpawn(command4);
-assert.equal(result4.stdout.toString(), "stdout2\n");
-assert.ok(result4.stderr.toString(), "stderr2\n");
-assert.equal(result4.exitCode, 1);
+// const command4 = `nexss Nexss/Test/Platform/example1.nexss`;
+// const result4 = nSpawn(command4);
+// assert.equal(result4.stdout.toString(), "stdout2\n");
+// assert.ok(result4.stderr.toString(), "stderr2\n");
+// assert.equal(result4.exitCode, 1);

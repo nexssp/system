@@ -1,20 +1,16 @@
 {
   "name": "@nexssp/system",
   "description": "System functions not only for the Nexss Programmer",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "homepage": "https://nexss.com",
   "main": "src/system.js",
   "files": [
     "src/**/*"
   ],
   "scripts": {
-    "test": "nexssp-test --ignore=languages",
-    "test:list": "nexssp-test --dry",
-    "test:languages:verbose": "nexssp-test --select=languages --debug",
-    "test:all:long": "nexssp-test",
+    "test": "node tests/test.js # manual test as @nexssp/test is related to this package",
     "prepare": "npm run nexss:build",
-    "nexss:build": "npx @nexssp/min@1.0.6",
-    "nexss:clean": ""
+    "nexss:build": "npx @nexssp/min@1.0.6"
   },
   "author": {
     "name": "Marcin Polak",

@@ -1,1 +1,0 @@
-const definition={stdout:"Standard output",stderr:"Error output",exitCode:"Exit code"},proxyHandler={get:(e,t,o)=>(e[t]||(process.stack(red(`Argument key ${t} does not exist. Check: 'src/nexss-core/arguments.js'`),2),process.exit(1)),t)},outputInterface=new Proxy(definition,proxyHandler);module.exports={definition:definition,outputInterface:outputInterface};
