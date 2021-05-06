@@ -79,13 +79,13 @@ function nSpawn(command, options = {}) {
   let result;
   try {
     result = spawnSync(`${cmd}${commandExtension}`, args, options);
-    console.log(
-      "DDDDDDDDDDDDDD",
-      `${cmd}`,
-      args,
-      result.stdout ? result.stdout.toString() : "stdout empty",
-      result.stderr ? result.stderr.toString() : "stderr empty"
-    );
+    // console.log(
+    //   "DDDDDDDDDDDDDD",
+    //   `${cmd}`,
+    //   args,
+    //   result.stdout ? result.stdout.toString() : "stdout empty",
+    //   result.stderr ? result.stderr.toString() : "stderr empty"
+    // );
   } catch (e) {
     console.log("Error catched:", e);
     process.exit(1);
