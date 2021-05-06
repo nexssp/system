@@ -1,0 +1,53 @@
+{
+  "name": "@nexssp/system",
+  "description": "System functions not only for the Nexss Programmer",
+  "version": "1.0.1",
+  "homepage": "https://nexss.com",
+  "main": "src/system.js",
+  "files": [
+    "src/**/*"
+  ],
+  "scripts": {
+    "test": "nexssp-test --ignore=languages",
+    "test:list": "nexssp-test --dry",
+    "test:languages:verbose": "nexssp-test --select=languages --debug",
+    "test:all:long": "nexssp-test",
+    "prepare": "npm run nexss:build",
+    "nexss:build": "npx @nexssp/min@1.0.6",
+    "nexss:clean": ""
+  },
+  "author": {
+    "name": "Marcin Polak",
+    "email": "mapoart@gmail.com",
+    "url": "https://nexss.com"
+  },
+  "keywords": [
+    "system",
+    "spawn",
+    "exe"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/nexssp/system.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nexssp/system/issues",
+    "email": "mapoart@gmail.com"
+  },
+  "license": "MIT",
+  "funding": [
+    {
+      "type": "paypal",
+      "url": "https://www.paypal.com/paypalme/mapoart"
+    },
+    {
+      "type": "github",
+      "url": "https://github.com/nexssp/cli?sponsor=1"
+    }
+  ],
+  "dependencies": {
+    "@nexssp/extend": "^1.0.7",
+    "@nexssp/stack": "^1.0.9",
+    "string-argv": "^0.3.1"
+  }
+}
