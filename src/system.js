@@ -1,6 +1,7 @@
 "use strict";
 const { spawnSync } = require("child_process");
 const { existsSync } = require("fs");
+require("@nexssp/extend")("array");
 
 const defaultOptions = {};
 if (process.platform !== "win32") {
@@ -30,8 +31,19 @@ STDOUT:
 
 function nSpawn(command, options = {}) {
   const { parseArgsStringToArgv } = require("string-argv");
-  const parsed = parseArgsStringToArgv(command);
-  const [cmd, ...args] = parseArgsStringToArgv(command);
+  let parsed = parseArgsStringToArgv(command).argStripQuotes();
+
+  if (process.platform === "win32") {
+    parsed = parsed.map((a) =>
+      ~a.indexOf("=") ? `${a.replace("=", '="')}"` : a
+    );
+  } else {
+    parsed = parsed.map((a) =>
+      ~a.indexOf("=") ? `${a.replace("=", "='")}'` : a
+    );
+  }
+
+  const [cmd, ...args] = parsed;
 
   if (nSpawn.debug) {
     console.log("command:", command);
@@ -39,9 +51,15 @@ function nSpawn(command, options = {}) {
     console.log("args:", args);
   }
 
-  Object.assign(options, {
-    shell: process.platform == "win32" ? true : process.shell,
-  });
+  if (process.platform !== "win32") {
+    Object.assign(options, { shell: process.shell });
+  } else {
+    Object.assign(options, { shell: true });
+  }
+
+  // Object.assign(options, {
+  //   shell: process.platform == "win32" ? true : process.shell,
+  // });
 
   // if cwd is empty or null - can't be passed
   if (options.cwd && !existsSync(options.cwd)) {
@@ -61,6 +79,13 @@ function nSpawn(command, options = {}) {
   let result;
   try {
     result = spawnSync(`${cmd}${commandExtension}`, args, options);
+    console.log(
+      "DDDDDDDDDDDDDD",
+      `${cmd}`,
+      args,
+      result.stdout ? result.stdout.toString() : "stdout empty",
+      result.stderr ? result.stderr.toString() : "stderr empty"
+    );
   } catch (e) {
     console.log("Error catched:", e);
     process.exit(1);

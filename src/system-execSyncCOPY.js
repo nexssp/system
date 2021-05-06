@@ -60,8 +60,9 @@ function nSpawn(command, options = {}) {
   try {
     stdout = execSync(`${command} --nxsPipeErrors`, options).toString();
   } catch (er) {
-    stdout = er.stdout.toString();
-    dtderr = er.stderr.toString();
+    // stdout = er.stdout.toString();
+    stderr = er.stderr.toString();
+    console.log(stderr);
     exitCode = er.status;
   }
 

@@ -5,10 +5,24 @@ const { nSpawn } = require("../");
 
 // nSpawn.debug = true;
 
+const commandZ = `nexss Output/End "works on Ubuntu" --platform:check="UBUNTU" --platform:noerror`;
+const resultZ = nSpawn(commandZ);
+assert.match(resultZ.stdout.toString(), /--myPath=Program Files/);
+
+console.log(resultZ);
+
+const commandA = `echo '{"array":["x","y","z"]}' | nexss Id --nxsSelect=array`;
+const resultA = nSpawn(commandA);
+assert.match(resultA.stdout.toString(), /--myPath=Program Files/);
+
+process.exit(1);
+
 const command0 = `node process_argv.js --myPath=CDE --myPath="Program Files" --nxsConcat="myPath" --nxsGlue=PATH --debug`;
 const result0 = nSpawn(command0);
 
 assert.match(result0.stdout.toString(), /--myPath=Program Files/);
+
+process.exit(1);
 
 const command1 = `echo Id --myPath=CDE --myPath="Program Files" --nxsConcat="myPath" --nxsGlue=PATH --debug`;
 const result1 = nSpawn(command1);
