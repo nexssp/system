@@ -1,7 +1,6 @@
 "use strict";
 const { spawnSync } = require("child_process");
 const { existsSync } = require("fs");
-require("@nexssp/extend")("array");
 
 const defaultOptions = {};
 if (process.platform !== "win32") {
@@ -32,7 +31,6 @@ STDOUT:
 function nSpawn(command, options = {}) {
   const { parseArgsStringToArgv } = require("string-argv");
   const parsed = parseArgsStringToArgv(command);
-  // const strippedQuotesArgs = parsed.argStripQuotes();
   const [cmd, ...args] = parseArgsStringToArgv(command);
 
   if (nSpawn.debug) {
