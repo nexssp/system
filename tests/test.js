@@ -6,16 +6,20 @@ const { nSpawn } = require("../");
 // nSpawn.debug = true;
 
 const commandZ = `nexss Output/End "works on Ubuntu" --platform:check="UBUNTU" --platform:noerror`;
-const resultZ = nSpawn(commandZ);
-assert.match(resultZ.stdout.toString(), /--myPath=Program Files/);
-
-console.log(resultZ);
+const resultZ = nSpawn(commandZ, { stripTerminalColors: true });
+assert.match(
+  resultZ.stdout.toString() + resultZ.stderr.toString(),
+  /WARN WARN:  Nexss Programmer: UBUNTU did not match with your platform win32, WINDOWS10 or WINDOWS. But program WILL continue/i
+);
 
 const commandA = `echo '{"array":["x","y","z"]}' | nexss Id --nxsSelect=array`;
 const resultA = nSpawn(commandA);
-assert.match(resultA.stdout.toString(), /--myPath=Program Files/);
+assert.match(
+  resultA.stdout.toString(),
+  /"Select":"x","Select_2":"y","Select_3":"z"/
+);
 
-process.exit(1);
+// process.exit(1);
 
 const command0 = `node process_argv.js --myPath=CDE --myPath="Program Files" --nxsConcat="myPath" --nxsGlue=PATH --debug`;
 const result0 = nSpawn(command0);

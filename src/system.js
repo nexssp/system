@@ -1,7 +1,7 @@
 "use strict";
 const { spawnSync } = require("child_process");
 const { existsSync } = require("fs");
-require("@nexssp/extend")("array");
+require("@nexssp/extend")("array", "string");
 
 const defaultOptions = {};
 if (process.platform !== "win32") {
@@ -9,6 +9,10 @@ if (process.platform !== "win32") {
 }
 
 function debugOutput(command, options, stdout, stderr) {
+  if (!options.stdio) {
+    options.stdio = "pipe";
+  }
+
   console.log(
     stderr
       ? `\n${"Result WITH STDERR:"}`
@@ -30,7 +34,13 @@ STDOUT:
 }
 
 function nSpawn(command, options = {}) {
+  if (!options.stdio) {
+    options.stdio = "pipe";
+  }
+
   const { parseArgsStringToArgv } = require("string-argv");
+
+  // To check below
   let parsed = parseArgsStringToArgv(command).argStripQuotes();
 
   if (process.platform === "win32") {
@@ -42,7 +52,7 @@ function nSpawn(command, options = {}) {
       ~a.indexOf("=") ? `${a.replace("=", "='")}'` : a
     );
   }
-
+  // End to check
   const [cmd, ...args] = parsed;
 
   if (nSpawn.debug) {
@@ -71,25 +81,21 @@ function nSpawn(command, options = {}) {
   // if (process.platform === "win32" && cmd === "nexss") {
   //   commandExtension = ".cmd";
   // }
+  const stripTerminalColors = options.stripTerminalColors;
+  delete options.stripTerminalColors;
 
   let stderr = "";
   let stdout = "";
   let exitCode = 0;
-  options.stdio = "pipe";
+
   let result;
   try {
     result = spawnSync(`${cmd}${commandExtension}`, args, options);
-    // console.log(
-    //   "DDDDDDDDDDDDDD",
-    //   `${cmd}`,
-    //   args,
-    //   result.stdout ? result.stdout.toString() : "stdout empty",
-    //   result.stderr ? result.stderr.toString() : "stderr empty"
-    // );
   } catch (e) {
     console.log("Error catched:", e);
     process.exit(1);
   }
+
   if (result.error) {
     switch (result.error.code) {
       case "ENOENT":
@@ -105,9 +111,14 @@ function nSpawn(command, options = {}) {
         throw new Error(result.error);
     }
   } else {
-    stdout = result.stdout.toString();
-    stderr = result.stderr.toString();
-    exitCode = result.status;
+    if (result.stdout) stdout = result.stdout.toString();
+    if (result.stderr) stderr = result.stderr.toString();
+    if (result.status) exitCode = result.status;
+
+    if (stripTerminalColors) {
+      stdout = stdout.stripTerminalColors();
+      stderr = stderr.stripTerminalColors();
+    }
 
     if (nSpawn.debug) {
       debugOutput(command, options, stdout, stderr);
