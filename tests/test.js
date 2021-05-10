@@ -1,32 +1,15 @@
 const assert = require("assert").strict;
 const { nSpawn } = require("../");
 
-// const command = `nexss Id --var1=myval1 --var1=myval2 --var1=myval3 --var1=myval4 --nxsDelete=cuid,Select_2 --nxsSelect="var1"`;
+const commandArgs = `node process_argv.js param1 --x='a b c' -a --noparam --noquotes=a --x='abc' --a="a" paramInside --ab="a b" --x='x x y' --y='a b c'`;
+const resultCA = nSpawn(commandArgs);
 
-// nSpawn.debug = true;
-
-const commandZ = `nexss Output/End "works on Ubuntu" --platform:check="UBUNTU" --platform:noerror`;
-const resultZ = nSpawn(commandZ, { stripTerminalColors: true });
-assert.match(
-  resultZ.stdout.toString() + resultZ.stderr.toString(),
-  /WARN WARN:  Nexss Programmer: UBUNTU did not match with your platform win32, WINDOWS10 or WINDOWS. But program WILL continue/i
-);
-
-const commandA = `echo '{"array":["x","y","z"]}' | nexss Id --nxsSelect=array`;
-const resultA = nSpawn(commandA);
-assert.match(
-  resultA.stdout.toString(),
-  /"Select":"x","Select_2":"y","Select_3":"z"/
-);
-
-// process.exit(1);
-
-const command0 = `node process_argv.js --myPath=CDE --myPath="Program Files" --nxsConcat="myPath" --nxsGlue=PATH --debug`;
-const result0 = nSpawn(command0);
-
-assert.match(result0.stdout.toString(), /--myPath=Program Files/);
-
+console.log(resultCA.stdout.toString());
 process.exit(1);
+
+// const command0 = `nexss js run "console.log('xxxx')"`;
+// const result0 = nSpawn(command0);
+// assert.match(result0.stdout.toString(), /xxxx\n/);
 
 const command1 = `echo Id --myPath=CDE --myPath="Program Files" --nxsConcat="myPath" --nxsGlue=PATH --debug`;
 const result1 = nSpawn(command1);

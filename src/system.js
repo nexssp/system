@@ -1,7 +1,6 @@
 "use strict";
 const { spawnSync } = require("child_process");
 const { existsSync } = require("fs");
-require("@nexssp/extend")("array", "string");
 
 const defaultOptions = {};
 if (process.platform !== "win32") {
@@ -39,19 +38,13 @@ function nSpawn(command, options = {}) {
   }
 
   const { parseArgsStringToArgv } = require("string-argv");
-
-  // To check below
-  let parsed = parseArgsStringToArgv(command).argStripQuotes();
-
+  let parsed = parseArgsStringToArgv(command);
   if (process.platform === "win32") {
-    parsed = parsed.map((a) =>
-      ~a.indexOf("=") ? `${a.replace("=", '="')}"` : a
-    );
+    parsed = parsed.map((a) => a.replace(/='(.*)'/, '="$1"'));
   } else {
-    parsed = parsed.map((a) =>
-      ~a.indexOf("=") ? `${a.replace("=", "='")}'` : a
-    );
+    parsed = parsed.map((a) => a.replace(/="(.*)"/, "='$1'"));
   }
+
   // End to check
   const [cmd, ...args] = parsed;
 
@@ -89,6 +82,8 @@ function nSpawn(command, options = {}) {
   let exitCode = 0;
 
   let result;
+
+  // options.windowsVerbatimArguments = true;
   try {
     result = spawnSync(`${cmd}${commandExtension}`, args, options);
   } catch (e) {
@@ -100,7 +95,7 @@ function nSpawn(command, options = {}) {
     switch (result.error.code) {
       case "ENOENT":
         throw new Error(
-          `Program has not been found: ${result.error}, path: ${result.error.path}`
+          `Program has not been found: ${result.error}, path: ${result.error.path}.`
         );
         break;
       case "EACCES":
@@ -128,6 +123,9 @@ function nSpawn(command, options = {}) {
       exitCode,
       stdout,
       stderr,
+      cmd,
+      args,
+      command,
     };
   }
 }
