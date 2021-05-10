@@ -39,6 +39,13 @@ function nExec(command, options) {
   let stdout = "";
   let stderr = "";
 
+  options.stdio = "pipe";
+
+  // We want to see also stderr if exists, even if the status code is 0.
+  if (command.startsWith("nexss")) {
+    command += " --nxsPipeErrors";
+  }
+
   try {
     stdout = execSync(command, options);
     stdout = stdout.toString();

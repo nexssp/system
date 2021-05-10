@@ -1,7 +1,8 @@
 const assert = require("assert").strict;
 const { nExec, nSpawn } = require("../");
 
-const commandArgs = `php -r "echo 'xxx';"`;
+// const commandArgs = `php -r "echo 'xxx';"`;
+const commandArgs = "nexss Nexss/Test/Platform/example1.nexss";
 const resultCA = nExec(commandArgs);
 
 // const command0 = `nexss js run "console.log('xxxx')"`;
