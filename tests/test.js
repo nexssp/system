@@ -1,16 +1,14 @@
 const assert = require("assert").strict;
-const { nSpawn } = require("../");
+const { nExec, nSpawn } = require("../");
 
-const commandArgs = `node process_argv.js param1 --x='a b c' -a --noparam --noquotes=a --x='abc' --a="a" paramInside --ab="a b" --x='x x y' --y='a b c'`;
-const resultCA = nSpawn(commandArgs);
-
-console.log(resultCA.stdout.toString());
-process.exit(1);
+const commandArgs = `php -r "echo 'xxx';"`;
+const resultCA = nExec(commandArgs);
 
 // const command0 = `nexss js run "console.log('xxxx')"`;
 // const result0 = nSpawn(command0);
 // assert.match(result0.stdout.toString(), /xxxx\n/);
-
+console.log("!!!!!", resultCA);
+process.exit(1);
 const command1 = `echo Id --myPath=CDE --myPath="Program Files" --nxsConcat="myPath" --nxsGlue=PATH --debug`;
 const result1 = nSpawn(command1);
 assert.match(

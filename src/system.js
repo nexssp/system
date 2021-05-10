@@ -1,5 +1,5 @@
 "use strict";
-const { spawnSync } = require("child_process");
+const { spawnSync, execSync } = require("child_process");
 const { existsSync } = require("fs");
 
 const defaultOptions = {};
@@ -32,17 +32,74 @@ STDOUT:
   }
 }
 
-function nSpawn(command, options = {}) {
-  if (!options.stdio) {
-    options.stdio = "pipe";
+function nExec(command, options) {
+  options = parseOptions(options);
+  const stripTerminalColors = options.stripTerminalColors;
+  delete options.stripTerminalColors;
+  let stdout = "";
+  let stderr = "";
+
+  try {
+    stdout = execSync(command, options);
+    stdout = stdout.toString();
+    if (stripTerminalColors) {
+      stdout = stdout.stripTerminalColors();
+    }
+
+    return { exitCode: 0, stdout, stderr: "", command };
+  } catch (result) {
+    if (result.stdout) stdout = result.stdout.toString();
+    if (result.stderr) stderr = result.stderr.toString();
+
+    if (stripTerminalColors) {
+      stdout = stdout.stripTerminalColors();
+      stderr = stderr.stripTerminalColors();
+    }
+
+    if (nExec.debug) {
+      debugOutput(command, options, stdout, stderr);
+    }
+
+    return {
+      exitCode: result.status,
+      stdout,
+      stderr,
+      command,
+    };
+  }
+}
+
+const parseOptions = (opts = {}) => {
+  if (!opts.stdio) {
+    opts.stdio = "pipe";
+  }
+  if (process.platform !== "win32") {
+    Object.assign(opts, { shell: process.shell });
+  } else {
+    Object.assign(opts, { shell: true });
   }
 
+  // if cwd is empty or null - can't be passed
+  if (opts.cwd && !existsSync(opts.cwd)) {
+    return new Error(`Folder passed to 'nSpawn' does not exist.`);
+  }
+
+  return opts;
+};
+
+function nSpawn(command, options = {}) {
   const { parseArgsStringToArgv } = require("string-argv");
   let parsed = parseArgsStringToArgv(command);
   if (process.platform === "win32") {
     parsed = parsed.map((a) => a.replace(/='(.*)'/, '="$1"'));
   } else {
-    parsed = parsed.map((a) => a.replace(/="(.*)"/, "='$1'"));
+    parsed = parsed.map((a) => {
+      a = a.replace(/="(.*)"/, "='$1'");
+      if (!a.startsWith("-")) {
+        a = `"${a}"`;
+      }
+      return a;
+    });
   }
 
   // End to check
@@ -54,20 +111,11 @@ function nSpawn(command, options = {}) {
     console.log("args:", args);
   }
 
-  if (process.platform !== "win32") {
-    Object.assign(options, { shell: process.shell });
-  } else {
-    Object.assign(options, { shell: true });
-  }
+  options = parseOptions(options);
 
   // Object.assign(options, {
   //   shell: process.platform == "win32" ? true : process.shell,
   // });
-
-  // if cwd is empty or null - can't be passed
-  if (options.cwd && !existsSync(options.cwd)) {
-    return new Error(`Folder passed to 'nSpawn' does not exist.`);
-  }
 
   // spawnSync don't see commands without cmd, despite they are ok to run with execSync
   let commandExtension = "";
@@ -132,4 +180,4 @@ function nSpawn(command, options = {}) {
 
 nSpawn.debug = false;
 
-module.exports = { nSpawn };
+module.exports = { nSpawn, nExec };
