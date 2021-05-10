@@ -1,7 +1,7 @@
 {
   "name": "@nexssp/system",
   "description": "System functions not only for the Nexss Programmer",
-  "version": "1.0.9",
+  "version": "1.0.11",
   "homepage": "https://nexss.com",
   "main": "src/system.js",
   "files": [
@@ -43,6 +43,7 @@
   ],
   "dependencies": {
     "@nexssp/extend": "^1.0.8",
+    "@nexssp/os": "^1.0.30",
     "@nexssp/stack": "^1.0.9",
     "string-argv": "^0.3.1"
   }

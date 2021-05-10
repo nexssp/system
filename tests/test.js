@@ -2,7 +2,10 @@ const assert = require("assert").strict;
 const { nExec, nSpawn } = require("../");
 
 // const commandArgs = `php -r "echo 'xxx';"`;
-const commandArgs = "nexss Nexss/Test/Platform/example1.nexss";
+const commandArgs = `nexss Output/End "works on Ubuntu" --platform:check="UBUNTU" --platform:noerror --nxsPipeErrors`;
+
+// const commandArgs = `echo {"array":["x","y","z"]} | nexss Id --nxsSelect=array`;
+
 const resultCA = nExec(commandArgs);
 
 // const command0 = `nexss js run "console.log('xxxx')"`;

@@ -1,11 +1,5 @@
-"use strict";
 const { spawnSync, execSync } = require("child_process");
 const { existsSync } = require("fs");
-
-const defaultOptions = {};
-if (process.platform !== "win32") {
-  Object.assign(defaultOptions, { shell: process.shell });
-}
 
 function debugOutput(command, options, stdout, stderr) {
   if (!options.stdio) {
@@ -38,13 +32,6 @@ function nExec(command, options) {
   delete options.stripTerminalColors;
   let stdout = "";
   let stderr = "";
-
-  options.stdio = "pipe";
-
-  // We want to see also stderr if exists, even if the status code is 0.
-  if (command.startsWith("nexss")) {
-    command += " --nxsPipeErrors";
-  }
 
   try {
     stdout = execSync(command, options);
@@ -119,10 +106,11 @@ function nSpawn(command, options = {}) {
   }
 
   options = parseOptions(options);
-
-  // Object.assign(options, {
-  //   shell: process.platform == "win32" ? true : process.shell,
-  // });
+  if (process.platform === "win32") {
+    options.shell = true;
+  } else {
+    options.shell = require("@nexssp/os").getShell();
+  }
 
   // spawnSync don't see commands without cmd, despite they are ok to run with execSync
   let commandExtension = "";
