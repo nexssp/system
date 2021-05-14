@@ -1,5 +1,6 @@
 const { spawnSync, execSync } = require("child_process");
 const { existsSync } = require("fs");
+require("@nexssp/extend")("array");
 
 function debugOutput(command, options, stdout, stderr) {
   if (!options.stdio) {
@@ -84,18 +85,7 @@ const parseOptions = (opts = {}) => {
 function nSpawn(command, options = {}) {
   const { parseArgsStringToArgv } = require("string-argv");
   let parsed = parseArgsStringToArgv(command);
-  if (process.platform === "win32") {
-    parsed = parsed.map((a) => a.replace(/='(.*)'/, '="$1"'));
-  } else {
-    parsed = parsed.map((a) => {
-      a = a.replace(/="(.*)"/, "='$1'");
-      if (!a.startsWith("-")) {
-        a = `"${a}"`;
-      }
-      return a;
-    });
-  }
-
+  parsed = parsed.argvAddQuotes();
   // End to check
   const [cmd, ...args] = parsed;
 
