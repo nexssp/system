@@ -41,8 +41,7 @@
   ],
   "dependencies": {
     "@nexssp/extend": "^2.0.1",
-    "@nexssp/os": "^1.0.31",
-    "@nexssp/stack": "^1.0.9",
+    "@nexssp/os": "^2.0.2",
     "string-argv": "^0.3.1"
   },
   "devDependencies": {
