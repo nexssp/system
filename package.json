@@ -1,16 +1,14 @@
 {
   "name": "@nexssp/system",
   "description": "System functions not only for the Nexss Programmer",
-  "version": "1.0.12",
+  "version": "1.1.0",
   "homepage": "https://nexss.com",
   "main": "src/system.js",
   "files": [
-    "src/**/*"
+    "lib/**/*"
   ],
   "scripts": {
-    "test": "node tests/test.js # manual test as @nexssp/test is related to this package",
-    "prepare": "npm run nexss:build",
-    "nexss:build": "npx @nexssp/min@1.0.6"
+    "test": "nexssp-test"
   },
   "author": {
     "name": "Marcin Polak",
@@ -42,9 +40,12 @@
     }
   ],
   "dependencies": {
-    "@nexssp/extend": "^1.0.13",
-    "@nexssp/os": "^1.0.30",
+    "@nexssp/extend": "^2.0.1",
+    "@nexssp/os": "^1.0.31",
     "@nexssp/stack": "^1.0.9",
     "string-argv": "^0.3.1"
+  },
+  "devDependencies": {
+    "@nexssp/test": "^1.0.30"
   }
 }
