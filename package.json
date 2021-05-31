@@ -40,11 +40,11 @@
     }
   ],
   "dependencies": {
-    "@nexssp/extend": "^2.0.1",
-    "@nexssp/os": "^2.0.8",
+    "@nexssp/extend": "^2.0.3",
+    "@nexssp/os": "^2.0.17",
     "string-argv": "^0.3.1"
   },
   "devDependencies": {
-    "@nexssp/test": "^1.1.0"
+    "@nexssp/test": "^1.1.3"
   }
 }
