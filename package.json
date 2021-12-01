@@ -1,7 +1,7 @@
 {
   "name": "@nexssp/system",
   "description": "System functions not only for the Nexss Programmer",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "homepage": "https://nexss.com",
   "main": "lib/system.js",
   "files": [
