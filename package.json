@@ -40,7 +40,7 @@
     }
   ],
   "dependencies": {
-    "@nexssp/extend": "^2.0.3",
+    "@nexssp/extend": "^2.0.7",
     "@nexssp/os": "^2.0.17",
     "string-argv": "^0.3.1"
   },

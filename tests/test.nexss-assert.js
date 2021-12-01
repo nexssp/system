@@ -17,7 +17,7 @@ const commandArgs = `nexss Output/End "works on Ubuntu" --platform:check="UBUNTU
 const command1 = `echo Id --myPath=CDE --myPath="Program Files" --nxsConcat="myPath" --nxsGlue=PATH --debug`
 const result1 = nSpawn(command1)
 assert.match(
-  result1.stdout.toString(),
+  result1.stdout.toString().trim(),
   /Id --myPath="CDE" --myPath="Program Files" --nxsConcat="myPath" --nxsGlue="PATH" --debug/
 )
 
