@@ -1,6 +1,6 @@
 const assert = require('assert').strict
 process.chdir(__dirname)
-const { nExec, nSpawn, nExecTerminal } = require('../lib/system')
+const { nExec, nSpawn, nExecTerminal, getShell } = require('../lib/system')
 
 // const commandArgs = `php -r "echo 'xxx';"`;
 const commandArgs = `nexss Output/End "works on Ubuntu" --platform:check="UBUNTU" --platform:noerror --nxsPipeErrors`
@@ -12,7 +12,7 @@ const commandArgs = `nexss Output/End "works on Ubuntu" --platform:check="UBUNTU
 // const command0 = `nexss js run "console.log('xxxx')"`;
 // const result0 = nSpawn(command0);
 // assert.match(result0.stdout.toString(), /xxxx\n/);
-// console.log('!!!!!', resultCA)
+
 // process.exit(1)
 const command1 = `echo Id --myPath=CDE --myPath="Program Files" --nxsConcat="myPath" --nxsGlue=PATH --debug`
 const result1 = nSpawn(command1)
